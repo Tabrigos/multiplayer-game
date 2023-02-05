@@ -17,8 +17,12 @@ app.use('/client', express.static(__dirname + '/client'));
 
 console.log("Server started.");
 
-io.on("connect", (socket) => {
 
+io.on("connect", (socket) => {
     console.log("connected socket id: " + socket.id);
+
+    socket.on("happy!", () => {
+        console.log("client is happy");
+    });
 
 });
