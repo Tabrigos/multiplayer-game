@@ -1,17 +1,29 @@
 
-let express = require('express');
-let app = express();
-let serv = require('http').Server(app);
+const express = require('express');
+const app = express();
+const { createServer } = require("http");
+const { Server } = require("socket.io");
+//const serv = require('http').Server(app);
+
+const httpServer = createServer(app);
+
+const io = new Server(httpServer, {});
+
+httpServer.listen(2000);
 
 app.get('/', function(req,res) {
     res.sendFile(__dirname + '/client/index.html');
 });
+
 app.use('/client', express.static(__dirname + '/client'));
 
-serv.listen(2000);
-console.log("Server started.");
+    console.log("Server started.");
 
-let io = require('socket.io')(serv, {});
+io.on("connection", (socket) => {
+    console.log("client connected");
+  });
+
+/*let io = require('socket.io')(serv, {});
 io.sockets.on('connection', function(socket){
     console.log('socket connection');
-});
+});*/
